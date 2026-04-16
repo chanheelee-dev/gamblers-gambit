@@ -33,6 +33,7 @@
 - **산출물**:
   - `docs/research/r3-p-of-v.md` — 작은 플레이테스트(50~100 라운드) 결과, 또는 공개 puzzle solve rate 데이터 기반 V vs p 산점도 / 적합 곡선.
   - λ 추정값을 `01-game-concept.md` §4 의 초기값으로 반영.
+  - **모델 비교**: 현재 exponential saturation 외에 logistic sigmoid, power law, linear clamp 등 대안 후보를 같은 데이터에 fit 해서 잔차/AIC 비교. 더 나은 모델이 있으면 §4 교체.
 - **참고 자료**: Lichess puzzle 난이도 (glicko rating → 추정 solve rate), 자체 플레이테스트 로그.
 
 ## R4. Tactical Obviousness 신호
