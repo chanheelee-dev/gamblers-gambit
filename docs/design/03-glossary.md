@@ -65,7 +65,31 @@ V = |wp_after − wp_before|    (단위: pp)
 - N-choice → 1/N
 - numeric range → 구간 넓이에 의존
 
-p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조).
+p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅 페이즈** (아래) 에 따라 값이 교체된다.
+
+---
+
+## 세션 구조
+
+### Session arc (세션 아크)
+
+한 게임 세션이 시작부터 뱅크롤 소진 / 종료까지 그리는 구조. 본 게임은 **뒤로 갈수록 버티기 힘든** 곡선을 의도 (§1.1, §5). 세 가지 메커니즘이 독립적으로 돌면서 서로 강화:
+
+- **Ramping house edge** (아래 / §5.1)
+- **Betting phase escalation** (아래 / §5.2)
+- **Redemption round** (아래 / §5.3)
+
+### Ramping house edge
+
+α, β 가 라운드 번호 `t` 의 증가 함수로 확장되는 메커니즘. `α(t) = min(α_max, α_0 + k_α · t)` 류. 초반 거의 공정 → 후반 치명타. §5.1.
+
+### Betting phase (베팅 페이즈)
+
+세션 아크 안에서 동일한 베팅 형태가 유지되는 구간. 각 페이즈는 고유한 [baseline 정답률](#baseline-정답률) 을 가진다 (예: Phase 1 binary up/down → 0.5, Phase 2 multi-choice → 1/N). §5.2.
+
+### Redemption round (패자부활전)
+
+트리거 조건(뱅크롤 저점, N연패 등) 에서 등장하는 bonus 라운드. "그럼 뭘 했어야 했지?" 형태 — 직전 라운드의 best move 를 multi-choice 로 맞히기. 난이도는 더 높지만 EV 가 플레이어 쪽으로 기울어 있는 **설계적 숨구멍**. §5.3.
 
 ---
 
