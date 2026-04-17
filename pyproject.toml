@@ -1,8 +1,25 @@
 [project]
 name = "gamblers-gambit"
 version = "0.1.0"
-description = "Add your description here"
+description = "체스 고수가 되기 위한 도박판"
 requires-python = ">=3.11"
 dependencies = [
     "matplotlib>=3.10.8",
+    "chess>=1.11.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mvp/gamblers_gambit"]
+
+[tool.pytest.ini_options]
+testpaths = ["mvp/tests"]
+pythonpath = ["mvp"]
