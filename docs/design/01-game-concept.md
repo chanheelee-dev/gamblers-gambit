@@ -110,7 +110,7 @@ p(V) = 0.5 + 0.5 * (1 − exp(−λ * V))
 
 ```
 base_odds  = (1 − p) / p
-s(V)       = V / 100                 # "쉬움 지수" (0~1)
+s(V)       = min(1, V / 100)          # "쉬움 지수" (0~1, V>100 시 clamp)
 win_payout = base_odds * (1 − α * s(V))
 loss_mult  = 1         * (1 + β * s(V))
 ```
@@ -137,7 +137,7 @@ loss_mult  = 1         * (1 + β * s(V))
 
 ---
 
-## 5. Session arc — escalation & redemption
+## 5. Session arc — escalation & serendipity
 
 per-round 수식(§4) 위에 얹히는 **세션 레벨** 메커니즘. 핵심 감각은 "뒤로 갈수록 버티기 힘들지만, 버티면 숨구멍이 찾아온다" 이다 (§1.1 세션 긴장감 곡선).
 
@@ -187,7 +187,7 @@ eligible = max(0, rounds_since_last_trigger − cooldown)
 p_seren  = 1 − exp(−μ · eligible)
 ```
 
-- `rounds_since_last_trigger`: 직전 serendipity 이후 경과 라운드 (세션 시작 시 0).
+- `rounds_since_last_trigger`: 직전 serendipity 이후 경과 라운드. 세션 시작 시 0, 트리거 발동 시 0 으로 리셋, 이후 라운드마다 +1.
 - `cooldown`: 발동 직후 잠기는 라운드 수 (예: 3~5). 연속 발동 방지.
 - `μ`: 확률 상승 속도. 작을수록 뜸하고, 클수록 자주. 튜닝 대상.
 - 효과: cooldown 해제 직후에는 확률 낮음 → 라운드가 쌓일수록 거의 확실히 한 번은 터짐 → **"언제 올지 모르지만 결국 온다"** 의 긴장.
@@ -212,7 +212,7 @@ time_limit(t) = max(T_min, T_0 − k_T · t)
 
 - `T_0`: 초기 시간 제한. **15~20초** 기본.
 - `T_min`: 하한. **5초**. 이 아래로는 내려가지 않음.
-- `k_T`: 라운드당 감소 속도. 튜닝 대상.
+- `k_T`: 라운드당 감소량 (단위: 초/라운드). 튜닝 대상.
 - 효과: 초반에는 "볼 시간이 좀 있다" → 후반에는 "거의 즉답" 강제. Ramping edge 와 betting mode escalation 이 **경제적 압박** 이라면, time ramp 는 **인지적 압박** — 둘이 동시에 조여 오면서 세션 긴장감이 비선형으로 치솟음.
 - 타이머 소진 시: 강제 패배(wrong answer) 처리 vs 강제 패스(기회 손실) — 둘 중 하나로 결정 필요 (§8 Open Q).
 
@@ -311,7 +311,7 @@ time_limit(t) = max(T_min, T_0 − k_T · t)
 6. **[P2 · 밸런스] 베팅액 규칙**
    - 고정 스텝 (1 / 5 / 10 / 25) vs 자유 입력.
    - 라운드당 상한 (예: 잔고의 20%) 도입 여부 → 뱅크럽트 속도 제어.
-   - Redemption 라운드의 베팅액 규칙은 별도(강제액 / 잔고 비율 등) — #4 와 연동.
+   - Serendipity 라운드의 베팅액 규칙은 별도(강제액 / 잔고 비율 등) — #4 와 연동.
 
 7. **[P3 · 확장] 플레이어 ELO 적응**
    - λ 를 플레이어별로 개인화할지, 고정할지.
@@ -325,4 +325,6 @@ time_limit(t) = max(T_min, T_0 − k_T · t)
 ## 관련 문서
 
 - `02-research-tasks.md` — 이 초안의 가정들을 검증하기 위한 리서치 과제 목록.
-- `03-glossary.md` — 본 문서에 쓰인 용어 정의.
+- `03-glossary.md` — 본 문서에 쓰인 프로젝트 고유 용어 정의.
+- [`../background/gambling-primer.md`](../background/gambling-primer.md) — EV, 하우스 엣지, 공정 배당 등 일반 도박/확률 개념.
+- [`../background/chess-primer.md`](../background/chess-primer.md) — Elo, centipawn, SAN/PGN/FEN, 수의 유형, 엔진 용어 등 일반 체스 개념.

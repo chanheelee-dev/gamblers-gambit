@@ -129,4 +129,3 @@ p(V) = baseline + (1 − baseline) * (1 − exp(−λ * V))
 - `02-research-tasks.md` — 용어 뒤의 값/식을 확정하기 위한 리서치 과제.
 - [`../background/gambling-primer.md`](../background/gambling-primer.md) — EV, 하우스 엣지, 공정 배당 등 **일반 도박/확률 개념**.
 - [`../background/chess-primer.md`](../background/chess-primer.md) — Elo, SAN/PGN/FEN, 수의 유형, 엔진 용어 등 **일반 체스 개념**.
-- [`../background/gambling-primer.md`](../background/gambling-primer.md) — EV, 하우스 엣지, 공정 배당 등 **일반 도박/확률 개념**. 프로젝트 고유 정의가 아닌 용어는 여기로 분리됨.
