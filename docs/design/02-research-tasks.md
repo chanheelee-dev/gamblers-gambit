@@ -53,7 +53,7 @@
 
 ## R5. Baseline 정답률
 
-- **질문**: 베팅 형태(Open Question #1)가 확정된 후, 해당 형태의 "찍기 baseline" 은 얼마인가? 그 baseline 이 p(V) 모델의 하한을 어떻게 바꾸는가?
+- **질문**: betting mode(Open Question #1)가 확정된 후, 해당 형태의 "찍기 baseline" 은 얼마인가? 그 baseline 이 p(V) 모델의 하한을 어떻게 바꾸는가?
 - **산출물**:
   - `docs/research/r5-baseline.md` — 형태별 baseline 표 + 최종 채택 형태의 p(V) 재정의.
   - `01-game-concept.md` §4 의 p(V) 식에서 `0.5` 상수를 baseline 으로 교체.
@@ -76,4 +76,4 @@ R4 ───► 장기: p(V, features) 확장
 (Open Q #1 결정) ──► R5 ──► 01 §4 p(V) 의 상수항
 ```
 
-R1, R2 는 서로 독립이므로 병렬 진행 가능. R5 는 베팅 형태 결정(Open Q #1) 에 의존.
+R1, R2 는 서로 독립이므로 병렬 진행 가능. R5 는 betting mode 결정(Open Q #1) 에 의존.

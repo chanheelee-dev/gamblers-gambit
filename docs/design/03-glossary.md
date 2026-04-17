@@ -57,9 +57,13 @@ V = |wp_after − wp_before|    (단위: pp)
 - α = β = 0 → 공정 배당. 값이 클수록 "쉬운 건 짜게, 실수는 혹독히".
 - 이를 통해 [하우스 엣지](../background/gambling-primer.md#house-edge) 를 V 축에서 비균일하게 발생시키는 것이 설계 의도.
 
+### Betting mode
+
+플레이어가 한 라운드에서 **무엇에 대해 베팅하는가** 의 형식. 후보: up/down (승률 올림/내림), multi-choice (N개 후보 중 best), threshold (V ≥ X?), numeric range (V 값 예측). Mode 가 바뀌면 정답률 모델 `p(V)` 과 배당 공식을 **별도로 설계** 해야 한다 — baseline, 난이도 축, skill tax 크기가 전부 달라짐.
+
 ### Baseline 정답률
 
-베팅 형태별 "찍기" 기대 정답률.
+Betting mode 별 "찍기" 기대 정답률.
 
 - binary up/down → 0.5
 - N-choice → 1/N
@@ -76,7 +80,7 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 한 게임 세션이 시작부터 뱅크롤 소진 / 종료까지 그리는 구조. 본 게임은 **뒤로 갈수록 버티기 힘든** 곡선을 의도 (§1.1, §5). 세 가지 메커니즘이 독립적으로 돌면서 서로 강화:
 
 - **Ramping house edge** (아래 / §5.1)
-- **Betting phase escalation** (아래 / §5.2)
+- **Betting mode escalation** (아래 / §5.2)
 - **Serendipity round** (아래 / §5.3)
 - **Time pressure ramp** (아래 / §5.4)
 
@@ -86,7 +90,7 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 
 ### Betting phase (베팅 페이즈)
 
-세션 아크 안에서 동일한 베팅 형태가 유지되는 구간. 각 페이즈는 고유한 [baseline 정답률](#baseline-정답률) 을 가진다 (예: Phase 1 binary up/down → 0.5, Phase 2 multi-choice → 1/N). §5.2.
+세션 아크 안에서 동일한 betting mode 가 유지되는 구간. 각 페이즈는 고유한 [baseline 정답률](#baseline-정답률) 을 가진다 (예: Phase 1 binary up/down → 0.5, Phase 2 multi-choice → 1/N). §5.2.
 
 ### Time pressure ramp
 
@@ -118,7 +122,7 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 p(V) = baseline + (1 − baseline) * (1 − exp(−λ * V))
 ```
 
-- `baseline` 은 베팅 형태에 따라 0.5 또는 1/N (R5).
+- `baseline` 은 betting mode 에 따라 0.5 또는 1/N (R5).
 - `λ` 는 "V 한 단위당 난이도 감소 속도". 실측값은 R3.
 
 ---

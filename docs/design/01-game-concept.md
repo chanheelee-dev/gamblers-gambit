@@ -12,7 +12,7 @@
 
 - 플레이어는 시작 시 **100 유닛**의 뱅크롤을 받는다.
 - 한 라운드는 체스 포지션과 그 위에서 벌어지는 **어떤 액션(수, move)** 을 제시하고, 플레이어가 그 액션이 포지션의 승률(winrate)에 미치는 영향에 **베팅** 하는 구조다.
-  - 예: "이 수가 승률을 올릴까 내릴까?" (binary up/down), "변동폭이 X [pp](./03-glossary.md#percent-point-pp) 이상일까?" (threshold) 등. 정확한 베팅 형태는 아직 미확정 (§8 Open Questions 참조).
+  - 예: "이 수가 승률을 올릴까 내릴까?" (binary up/down), "변동폭이 X [pp](./03-glossary.md#percent-point-pp) 이상일까?" (threshold) 등. 정확한 betting mode 는 아직 미확정 (§8 Open Questions 참조).
 - 게임의 의도된 감각:
   - **변동폭(= 수 전후 승률 변화의 크기) 이 클수록 맞추기 쉽다**는 작업가설에 기반한다.
   - 쉬운 문제(큰 변동)는 **맞춰도 조금, 틀리면 크게** 잃는다.
@@ -26,7 +26,7 @@
 이 게임이 **달성하려는 것**:
 
 - **Positional judgment 훈련**: "이 수가 미묘하게 좋은/나쁜 수인가" 를 읽는 감각을 강화. blunder detection 은 보너스, 메인이 아님. 목표는 **계산(calculation) 이 아니라 직관(intuition)** — 따라서 라운드당 판단 시간을 의도적으로 짧게 제한한다 (§6).
-- **세션 긴장감 곡선**: 뱅크롤 100 유닛이 너무 빨리 터지지도, 너무 안 줄어들지도 않아야 함. 그리고 **단순한 평평한 곡선이 아니라 뒤로 갈수록 버티기 힘들어지는** 형태를 목표로 한다. 세부 메커니즘 ([램핑 엣지](./03-glossary.md#ramping-house-edge) / [베팅 형태 에스컬레이션](./03-glossary.md#betting-phase-베팅-페이즈) / [serendipity round](./03-glossary.md#serendipity-round)) 은 §5 참조.
+- **세션 긴장감 곡선**: 뱅크롤 100 유닛이 너무 빨리 터지지도, 너무 안 줄어들지도 않아야 함. 그리고 **단순한 평평한 곡선이 아니라 뒤로 갈수록 버티기 힘들어지는** 형태를 목표로 한다. 세부 메커니즘 ([램핑 엣지](./03-glossary.md#ramping-house-edge) / [betting mode 에스컬레이션](./03-glossary.md#betting-phase-베팅-페이즈) / [serendipity round](./03-glossary.md#serendipity-round)) 은 §5 참조.
 - **정보 비대칭 유지**: 플레이어는 자신의 직관만으로 판단. 엔진 평가를 그대로 보여주면 게임이 죽는다.
 
 이 게임이 **달성하지 않는 것** (혼동 방지용):
@@ -77,7 +77,7 @@ wp = 50 + 50 * (2 / (1 + exp(-0.00368208 * cp)) - 1)
 
 ## 4. Payout 공식 초안
 
-> **베팅 타입 의존성**: 정답률 모델 `p(V)` 과 배당 공식은 베팅 타입에 따라 **별도로 설계** 해야 한다. 타입이 바뀌면 baseline 정답률, 난이도 축, skill tax 의 적절한 크기가 모두 달라진다. 아래 수식은 **up/down** 타입 전제.
+> **Betting mode 의존성**: 정답률 모델 `p(V)` 과 배당 공식은 betting mode 에 따라 **별도로 설계** 해야 한다. Mode 가 바뀌면 baseline 정답률, 난이도 축, skill tax 의 적절한 크기가 모두 달라진다. 아래 수식은 **up/down mode** 전제.
 
 **기호 요약** (§3 에서 도입된 것 재확인):
 
@@ -158,7 +158,7 @@ per-round 수식(§4) 위에 얹히는 **세션 레벨** 메커니즘. 핵심 �
 
 효과: 같은 V, 같은 베팅액이라도 **라운드가 진행될수록 기대값이 점점 악화**. 플레이어는 "한 번 잃기 시작하면 복구가 점점 어렵다" 는 압박을 체감.
 
-### 5.2 Betting form escalation
+### 5.2 Betting mode escalation
 
 베팅 **형태 자체** 가 페이즈마다 바뀌면서 baseline 찍기 확률이 단계적으로 떨어진다.
 
@@ -213,12 +213,12 @@ time_limit(t) = max(T_min, T_0 − k_T · t)
 - `T_0`: 초기 시간 제한. **15~20초** 기본.
 - `T_min`: 하한. **5초**. 이 아래로는 내려가지 않음.
 - `k_T`: 라운드당 감소 속도. 튜닝 대상.
-- 효과: 초반에는 "볼 시간이 좀 있다" → 후반에는 "거의 즉답" 강제. Ramping edge 와 betting form escalation 이 **경제적 압박** 이라면, time ramp 는 **인지적 압박** — 둘이 동시에 조여 오면서 세션 긴장감이 비선형으로 치솟음.
+- 효과: 초반에는 "볼 시간이 좀 있다" → 후반에는 "거의 즉답" 강제. Ramping edge 와 betting mode escalation 이 **경제적 압박** 이라면, time ramp 는 **인지적 압박** — 둘이 동시에 조여 오면서 세션 긴장감이 비선형으로 치솟음.
 - 타이머 소진 시: 강제 패배(wrong answer) 처리 vs 강제 패스(기회 손실) — 둘 중 하나로 결정 필요 (§8 Open Q).
 
 ### 5.5 네 메커니즘의 상호작용
 
-- Ramping edge + betting form escalation + time pressure 셋만 있으면 **선형 절망** 곡선이다. Serendipity 가 **비선형 희망 스파이크** 를 주입해 "포기하지 말고 버텨" 의 긴장감을 만듦.
+- Ramping edge + betting mode escalation + time pressure 셋만 있으면 **선형 절망** 곡선이다. Serendipity 가 **비선형 희망 스파이크** 를 주입해 "포기하지 말고 버텨" 의 긴장감을 만듦.
 - Serendipity 트리거가 플레이어 상태와 무관하므로, 잘하고 있을 때 뜨면 **가속**, 못하고 있을 때 뜨면 **역전 찬스** — 동일 메커니즘이 두 가지 서사를 모두 생성.
 - 네 메커니즘 모두 `t` (라운드) 에 의존. 튜닝의 자유도가 커서 실측 전에는 값 고정 금지 — R3 의 플레이테스트에서 **세션 길이·파산률·serendipity 빈도·타이머 소진 비율** 을 관측해 보정.
 - **압박 축 요약**: 경제(α, β ↑) + 인지난이도(phase ↑) + 시간(timer ↓) + 확률적 숨구멍(serendipity).
@@ -236,7 +236,7 @@ time_limit(t) = max(T_min, T_0 − k_T · t)
 
 ## 7. Worked example (한 라운드)
 
-설계의 감각을 구체 숫자로 확인하기 위한 예시. 아직 베팅 형태는 미확정이므로 가장 단순한 **binary up/down** 을 가정한다.
+설계의 감각을 구체 숫자로 확인하기 위한 예시. 아직 betting mode 는 미확정이므로 가장 단순한 **binary up/down** 을 가정한다.
 
 **시작 상태**
 
@@ -278,7 +278,7 @@ time_limit(t) = max(T_min, T_0 − k_T · t)
 - **P2 — 밸런스**: 게임 체감/세션 길이에 직접 영향. P1 이후.
 - **P3 — 확장**: MVP 이후로 미뤄도 게임이 돌아감.
 
-1. **[P1 · 선결] 베팅 형태 페이즈 시퀀스**
+1. **[P1 · 선결] Betting mode 페이즈 시퀀스**
    - 단일 형태가 아니라 §5.2 의 **페이즈별 시퀀스**. 각 페이즈에 어느 형태를 배치하고, 경계(라운드 #)를 어디에 둘지 결정해야 함.
    - 후보 형태: (a) binary up/down · (b) binary threshold · (c) multi-choice · (d) numeric range.
    - 페이즈 수(2 vs 3 vs 4 이상) 도 여기서 결정.

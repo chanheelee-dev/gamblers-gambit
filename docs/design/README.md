@@ -21,7 +21,7 @@
 
 ## 앞으로 추가될 예정 (예상)
 
-- `04-betting-format.md` — Open Question #1 (베팅 대상의 형태) 에 대한 결정 문서.
+- `04-betting-mode.md` — Open Question #1 (betting mode) 에 대한 결정 문서.
 - `docs/research/r1-v-distribution.md` 등 R1~R5 산출물.
 - 이후 설계가 안정화되면 `05-architecture.md` 류 실구현 문서.
 
