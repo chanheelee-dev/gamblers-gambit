@@ -1,0 +1,113 @@
+# Stockfish Setup
+
+이 게임은 포지션 평가에 [Stockfish](https://stockfishchess.org/) 엔진을 사용한다. UCI 프로토콜을 지원하는 네이티브 바이너리가 필요하며, `python-chess` 가 서브프로세스로 호출한다.
+
+## 설치
+
+### macOS
+
+```bash
+brew install stockfish
+```
+
+Homebrew 가 없으면 [brew.sh](https://brew.sh) 에서 먼저 설치.
+
+### Linux (Debian / Ubuntu)
+
+```bash
+sudo apt update
+sudo apt install stockfish
+```
+
+**주의**: Debian 패키지는 바이너리를 `/usr/games/stockfish` 에 설치한다. `/usr/games` 가 `$PATH` 에 없으면 `stockfish` 명령이 안 잡힌다 (비대화형 쉘에서 흔함). 아래 "동작 확인" 섹션의 해결법 참조.
+
+### Linux (기타 배포판)
+
+- **Arch**: `sudo pacman -S stockfish`
+- **Fedora**: `sudo dnf install stockfish`
+- **기타**: 공식 릴리스 페이지 https://stockfishchess.org/download/ 에서 바이너리 받아서 `PATH` 에 있는 디렉토리에 복사.
+
+### Windows
+
+선택지 3개:
+
+1. **winget** (Windows 10/11 기본):
+   ```powershell
+   winget install stockfish.stockfish
+   ```
+2. **Chocolatey**:
+   ```powershell
+   choco install stockfish
+   ```
+3. **수동 설치**: [Stockfish 릴리스 페이지](https://stockfishchess.org/download/) 에서 Windows 바이너리(`.exe`) 다운로드 → 적절한 폴더에 풀고 그 폴더를 `PATH` 에 추가.
+4. **WSL 사용자**: WSL 쉘에서 Linux 섹션 가이드를 따름.
+
+## 동작 확인
+
+```bash
+stockfish
+```
+
+프롬프트가 뜨면 UCI 명령을 테스트:
+
+```
+uci
+```
+
+`id name Stockfish 16` 같은 응답 뒤 `uciok` 이 떠야 정상. `quit` 으로 종료.
+
+PATH 에서 못 찾으면 전체 경로로 직접 실행:
+
+```bash
+/usr/games/stockfish        # Debian/Ubuntu
+/opt/homebrew/bin/stockfish # Apple Silicon mac
+```
+
+## PATH 이슈 해결
+
+### 영구 해결 (Debian/Ubuntu)
+
+`~/.bashrc` 또는 `~/.zshrc` 에 추가:
+
+```bash
+export PATH="$PATH:/usr/games"
+```
+
+새 셸을 열거나 `source ~/.bashrc`.
+
+### 일회성: 환경 변수 오버라이드
+
+이 프로젝트의 엔진 래퍼는 `STOCKFISH_PATH` 환경 변수를 우선으로 읽는다. PATH 를 건드리기 싫으면:
+
+```bash
+STOCKFISH_PATH=/usr/games/stockfish uv run python -m gamblers_gambit
+```
+
+엔진 탐색 순서는 `mvp/gamblers_gambit/engine.py` 의 `find_stockfish()` 참조:
+
+1. `STOCKFISH_PATH` 환경 변수
+2. `shutil.which("stockfish")` — PATH 검색
+3. 알려진 폴백 경로 (`/usr/games/stockfish`, `/usr/local/bin/stockfish`)
+
+## 버전
+
+python-chess 는 UCI 프로토콜만 쓰므로 Stockfish 버전은 크게 가리지 않는다. 다만:
+
+- **너무 구 버전** (Stockfish 10 이전): `info` 메시지 포맷이 다른 경우 있음. 15+ 권장.
+- **NNUE (신경망) 지원 버전** 은 평가가 훨씬 정확. 최신 패키지 매니저 배포본은 모두 NNUE 포함.
+- 현 문서 기준 안정 버전: **Stockfish 16+**.
+
+## 트러블슈팅
+
+| 증상 | 원인 / 해결 |
+|---|---|
+| `FileNotFoundError: Stockfish binary not found` | `which stockfish` 로 확인. PATH 이슈면 위 "PATH 이슈 해결" 참조. |
+| `Permission denied` | 바이너리 실행권한: `chmod +x /path/to/stockfish`. |
+| 엔진이 매우 느림 | depth 파라미터를 낮추거나, NNUE 가중치가 로드되는지 확인 (`setoption name Use NNUE value true` 가 기본). |
+| WSL에서 "stockfish not found" | WSL 내부에서 별도 설치 필요 (Windows 설치본은 WSL 에서 안 보임). |
+
+## 관련 문서
+
+- [`design/game-concept.md`](./design/game-concept.md) §Metric 선택 — cp ↔ wp 변환 공식이 엔진 출력을 어떻게 소비하는지.
+- [`background/chess-primer.md`](./background/chess-primer.md) — Stockfish, UCI, depth, PV 등 엔진 용어.
+- [`mvp/README.md`](./mvp/README.md) — 설치 후 MVP 실행법.

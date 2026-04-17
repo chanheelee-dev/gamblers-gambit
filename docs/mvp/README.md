@@ -21,19 +21,14 @@
 
 ## 실행법
 
+사전 조건: Stockfish 바이너리. 설치 가이드 → [`../stockfish-setup.md`](../stockfish-setup.md).
+
 ```bash
-apt install stockfish          # Debian/Ubuntu. brew install stockfish on macOS.
 uv sync
 uv run python -m gamblers_gambit
 ```
 
-Stockfish 바이너리 위치를 명시적으로 지정하려면:
-
-```bash
-STOCKFISH_PATH=/custom/path/stockfish uv run python -m gamblers_gambit
-```
-
-(Debian 패키지는 `/usr/games/stockfish` 에 설치되며, `/usr/games` 가 PATH 에 없는 경우를 위해 `find_stockfish()` 가 자동 폴백한다.)
+바이너리 위치가 비표준이면 `STOCKFISH_PATH` 환경 변수로 오버라이드 가능 (자세한 내용은 setup 문서 참조).
 
 ## 테스트
 
