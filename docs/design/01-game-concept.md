@@ -94,6 +94,10 @@ p(V) = 0.5 + 0.5 * (1 − exp(−λ * V))
 
 **모델 선택 근거**: 특정 논문이 아니라, "0 에서 시작해 1 로 포화하는" 범용 패턴인 **exponential saturation** (`1 − exp(−λx)`) 을 `[baseline, 1]` 구간에 affine 매핑한 것. 파라미터가 λ 하나뿐이라 **가장 적은 가정** 으로 "V=0 → 찍기, V→∞ → 확실, 중간은 부드러운 연결" 세 조건을 만족. 대안 후보(logistic sigmoid, power law, linear clamp) 비교 및 데이터 기반 모델 교체는 **R3** 에서 다룸.
 
+![p(V) 모델 후보 비교](./assets/pv-model-comparison.png)
+
+*파란 실선이 현재 채택한 exponential saturation. 네 후보 모두 같은 세 조건을 만족하지만 중간 구간(V=10~30)에서의 곡률이 다르다. 실측 데이터(R3)가 쌓이면 가장 fit 이 좋은 모델로 교체.*
+
 ### 배당
 
 공정 배당과, 그 위에 얹는 비대칭(skill tax)을 분해한다.
