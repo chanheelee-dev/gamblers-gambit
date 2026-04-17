@@ -1,4 +1,4 @@
-# 03. Glossary
+# Glossary
 
 이 프로젝트에서 반복적으로 쓰는 기술 용어를 한 곳에 모은다. 본 문서는 정책상 **한국어 본문 + 영어 기술 용어** 를 쓰기 때문에, 다른 문서에서는 용어의 재정의 없이 이 파일을 참조하는 것을 원칙으로 한다.
 
@@ -16,7 +16,7 @@ Centipawn (cp) 의 일반 정의는 [Chess Primer](../background/chess-primer.md
 
 현재 포지션에서 한쪽(문맥에 따라 백 또는 "수를 둔 쪽")의 기대 승률. 0~100 %.
 
-- **이 프로젝트**: 표면에 노출되는 평가 단위. cp → wp 변환식은 `01-game-concept.md` §2 참조. 확정 전 후보 비교는 R2.
+- **이 프로젝트**: 표면에 노출되는 평가 단위. cp → wp 변환식은 `game-concept.md` Metric 섹션 참조. 확정 전 후보 비교는 R2.
 
 ### Percent Point (pp)
 
@@ -73,28 +73,28 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 
 ### Session arc (세션 아크)
 
-한 게임 세션이 시작부터 뱅크롤 소진 / 종료까지 그리는 구조. 본 게임은 **뒤로 갈수록 버티기 힘든** 곡선을 의도 (§1.1, §5). 세 가지 메커니즘이 독립적으로 돌면서 서로 강화:
+한 게임 세션이 시작부터 뱅크롤 소진 / 종료까지 그리는 구조. 본 게임은 **뒤로 갈수록 버티기 힘든** 곡선을 의도 (Design goals, Session arc). 네 가지 메커니즘이 독립적으로 돌면서 서로 강화:
 
-- **Ramping house edge** (아래 / §5.1)
-- **Betting mode escalation** (아래 / §5.2)
-- **Serendipity round** (아래 / §5.3)
-- **Time pressure ramp** (아래 / §5.4)
+- **Ramping house edge** (아래)
+- **Betting mode escalation** (아래)
+- **Serendipity round** (아래)
+- **Time pressure ramp** (아래)
 
 ### Ramping house edge
 
-α, β 가 라운드 번호 `t` 의 증가 함수로 확장되는 메커니즘. `α(t) = min(α_max, α_0 + k_α · t)` 류. 초반 거의 공정 → 후반 치명타. §5.1.
+α, β 가 라운드 번호 `t` 의 증가 함수로 확장되는 메커니즘. `α(t) = min(α_max, α_0 + k_α · t)` 류. 초반 거의 공정 → 후반 치명타.
 
 ### Betting phase (베팅 페이즈)
 
-세션 아크 안에서 동일한 betting mode 가 유지되는 구간. 각 페이즈는 고유한 [baseline 정답률](#baseline-정답률) 을 가진다 (예: Phase 1 binary up/down → 0.5, Phase 2 multi-choice → 1/N). §5.2.
+세션 아크 안에서 동일한 betting mode 가 유지되는 구간. 각 페이즈는 고유한 [baseline 정답률](#baseline-정답률) 을 가진다 (예: Phase 1 binary up/down → 0.5, Phase 2 multi-choice → 1/N).
 
 ### Time pressure ramp
 
-라운드당 판단 시간이 세션이 진행될수록 줄어드는 메커니즘. `time_limit(t) = max(T_min, T_0 − k_T · t)`. 초기 15~20초 → 최소 5초. 경제적 압박(ramping edge) 과 별개인 **인지적 압박** 축. §5.4.
+라운드당 판단 시간이 세션이 진행될수록 줄어드는 메커니즘. `time_limit(t) = max(T_min, T_0 − k_T · t)`. 초기 15~20초 → 최소 5초. 경제적 압박(ramping edge) 과 별개인 **인지적 압박** 축.
 
 ### Serendipity round
 
-매 라운드 확률적으로 발동하는 bonus 라운드. 플레이어 상태(뱅크롤, 승패)와 **무관** — 서바이벌에서의 "우연한 행운". 발동 후 `cooldown` 라운드 동안 잠기고, 갈수록 발동 확률이 올라감. "그럼 뭘 했어야 했지?" 형태, EV 가 플레이어 쪽으로 기울어 있는 **설계적 숨구멍**. §5.3.
+매 라운드 확률적으로 발동하는 bonus 라운드. 플레이어 상태(뱅크롤, 승패)와 **무관** — 서바이벌에서의 "우연한 행운". 발동 후 `cooldown` 라운드 동안 잠기고, 갈수록 발동 확률이 올라감. "그럼 뭘 했어야 했지?" 형태, EV 가 플레이어 쪽으로 기울어 있는 **설계적 숨구멍**.
 
 ---
 
@@ -125,7 +125,7 @@ p(V) = baseline + (1 − baseline) * (1 − exp(−λ * V))
 
 ## 관련 문서
 
-- `01-game-concept.md` — 용어가 실제로 쓰이는 맥락.
-- `02-research-tasks.md` — 용어 뒤의 값/식을 확정하기 위한 리서치 과제.
+- `game-concept.md` — 용어가 실제로 쓰이는 맥락.
+- `research-tasks.md` — 용어 뒤의 값/식을 확정하기 위한 리서치 과제.
 - [`../background/gambling-primer.md`](../background/gambling-primer.md) — EV, 하우스 엣지, 공정 배당 등 **일반 도박/확률 개념**.
 - [`../background/chess-primer.md`](../background/chess-primer.md) — Elo, SAN/PGN/FEN, 수의 유형, 엔진 용어 등 **일반 체스 개념**.
