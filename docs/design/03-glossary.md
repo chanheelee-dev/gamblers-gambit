@@ -10,11 +10,7 @@
 
 ## 평가와 단위
 
-### Centipawn (cp)
-
-체스 엔진(Stockfish 등)이 출력하는 포지션 평가 단위. 폰의 1/100. 부호는 관례적으로 백 관점. `+150cp` 는 백이 약 1.5 폰 우세.
-
-- **이 프로젝트**: 내부 계산용. 플레이어에게 직접 노출하지 않는다.
+Centipawn (cp) 의 일반 정의는 [Chess Primer](../background/chess-primer.md#centipawn-cp) 참조. 본 프로젝트에서는 내부 계산용이며 플레이어에게 직접 노출하지 않는다.
 
 ### Winrate / Win Probability (wp, %)
 
