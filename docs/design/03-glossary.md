@@ -78,6 +78,7 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 - **Ramping house edge** (아래 / §5.1)
 - **Betting phase escalation** (아래 / §5.2)
 - **Serendipity round** (아래 / §5.3)
+- **Time pressure ramp** (아래 / §5.4)
 
 ### Ramping house edge
 
@@ -86,6 +87,10 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 ### Betting phase (베팅 페이즈)
 
 세션 아크 안에서 동일한 베팅 형태가 유지되는 구간. 각 페이즈는 고유한 [baseline 정답률](#baseline-정답률) 을 가진다 (예: Phase 1 binary up/down → 0.5, Phase 2 multi-choice → 1/N). §5.2.
+
+### Time pressure ramp
+
+라운드당 판단 시간이 세션이 진행될수록 줄어드는 메커니즘. `time_limit(t) = max(T_min, T_0 − k_T · t)`. 초기 15~20초 → 최소 5초. 경제적 압박(ramping edge) 과 별개인 **인지적 압박** 축. §5.4.
 
 ### Serendipity round
 
