@@ -1,10 +1,11 @@
 # Background Docs
 
-도박·확률 일반 개념 등, **디자인 결정 자체는 아니지만** 디자인 문서(`docs/design/`) 이해에 필요한 공통 배경 지식.
+도박·확률·체스 일반 개념 등, **디자인 결정 자체는 아니지만** 디자인 문서(`docs/design/`) 이해에 필요한 공통 배경 지식.
 
 ## 파일
 
-- **[`gambling-primer.md`](./gambling-primer.md)** — EV, 하우스 엣지, 공정 배당 등 도박 용어·개념. 디자인 문서에서 이런 개념을 만나면 여기를 참조.
+- **[`gambling-primer.md`](./gambling-primer.md)** — EV, 하우스 엣지, 공정 배당 등 도박 용어·개념.
+- **[`chess-primer.md`](./chess-primer.md)** — Elo, SAN/PGN/FEN, 수의 유형(blunder, sacrifice, quiet move 등), 엔진 용어(Stockfish, PV, depth).
 
 ## `docs/design/` 와의 관계
 
@@ -12,7 +13,7 @@
 |---|---|---|
 | `docs/design/` | 이 게임의 **결정·가정·수식** | payout 공식, V 의 정의, skill tax α/β |
 | `docs/design/03-glossary.md` | 이 게임의 **프로젝트 고유** 용어 | cp, wp, pp, V, win_payout, skill tax |
-| `docs/background/` (여기) | 도박·확률 **일반** 개념 (디자인에 종속되지 않음) | EV, 하우스 엣지, 공정 배당 |
+| `docs/background/` (여기) | 도박·확률·체스 **일반** 개념 (디자인에 종속되지 않음) | EV, 하우스 엣지, Elo, SAN, blunder |
 
 ## 편집 규칙
 

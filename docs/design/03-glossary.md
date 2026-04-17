@@ -93,31 +93,13 @@ p(V) 모델에서 V=0 일 때의 상수항으로 쓰인다 (R5 참조). **베팅
 
 ---
 
-## 난이도 신호 (tactical features)
+## 난이도 신호
 
-### Blunder
-
-큰 음(−) 의 V 를 만드는 수. 일반적으로 초보자에게도 잘 보이는, 명백한 실수.
-
-### Sacrifice
-
-단기적으로 material 을 손해 보지만, 수 뒤에 이득(또는 mate)이 나는 수. 본 게임에서는 "큰 V + material down" 형태로 표식 가능. **작업가설의 대표적 반례**: 큰 V 이지만 맞추기 어려움.
-
-### Only move
-
-두는 쪽에 유효한 대안이 사실상 없는 수. cp 2위 수와의 차이가 큰 경우. 난이도 ↑ 방향의 신호.
-
-### Quiet move
-
-공격/교환 없이 위치적으로 중요한 수. 보통 V 가 작지만, 틀릴 경우 뒤에 큰 V 가 연쇄적으로 터진다.
-
-### PV (Principal Variation)
-
-엔진이 예측한 최적 수순. 길이가 tactical obviousness 의 한 신호 (희생이 깊을수록 PV 가 길어지는 경향).
+체스 수의 유형 (blunder, sacrifice, only move, quiet move, PV 등) 은 난이도를 추정하는 보조 신호로 쓰인다. 각 유형의 일반 정의는 [Chess Primer](../background/chess-primer.md#수의-유형) 참조.
 
 ### Tactical obviousness
 
-"사람 눈에 그 수가 얼마나 뻔히 보이는가" 를 가리키는 비공식 용어. 본 프로젝트에서는 p(V, features) 확장의 축으로 등장.
+"사람 눈에 그 수가 얼마나 뻔히 보이는가" 를 가리키는 비공식 용어. 본 프로젝트에서는 p(V, features) 확장의 축으로 등장. 이 용어 자체는 일반 체스 용어가 아닌 **프로젝트 고유 개념**.
 
 ---
 
@@ -140,4 +122,6 @@ p(V) = baseline + (1 − baseline) * (1 − exp(−λ * V))
 
 - `01-game-concept.md` — 용어가 실제로 쓰이는 맥락.
 - `02-research-tasks.md` — 용어 뒤의 값/식을 확정하기 위한 리서치 과제.
+- [`../background/gambling-primer.md`](../background/gambling-primer.md) — EV, 하우스 엣지, 공정 배당 등 **일반 도박/확률 개념**.
+- [`../background/chess-primer.md`](../background/chess-primer.md) — Elo, SAN/PGN/FEN, 수의 유형, 엔진 용어 등 **일반 체스 개념**.
 - [`../background/gambling-primer.md`](../background/gambling-primer.md) — EV, 하우스 엣지, 공정 배당 등 **일반 도박/확률 개념**. 프로젝트 고유 정의가 아닌 용어는 여기로 분리됨.
