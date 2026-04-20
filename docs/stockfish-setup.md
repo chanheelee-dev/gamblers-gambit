@@ -4,9 +4,11 @@
 
 ## 설치
 
-### macOS (네이티브 — 권장)
+> 공식 안내: ["We only recommend downloading from the official GitHub releases."](https://github.com/official-stockfish/Stockfish/wiki/Download-and-usage)
+> 
+> 릴리스 페이지: https://github.com/official-stockfish/Stockfish/releases/latest
 
-Homebrew 패키지는 릴리스가 느리다. 공식 GitHub에서 최신 바이너리를 직접 받는다.
+### macOS
 
 **Step 1. 칩 확인**
 
@@ -16,57 +18,60 @@ uname -m
 # x86_64  → Intel
 ```
 
-**Step 2. 릴리스 페이지에서 다운로드**
+**Step 2. 릴리스 페이지에서 파일 선택**
 
-https://github.com/official-stockfish/Stockfish/releases/latest 접속 →
-Assets 목록에서 macOS 빌드 선택:
+https://github.com/official-stockfish/Stockfish/releases/latest 의 Assets 목록에서 선택:
 
-| 칩 | 파일 이름 |
+| 칩 | 선택 기준 |
 |---|---|
-| Apple Silicon (arm64) | `stockfish-macos-m1-apple-silicon.tar` |
-| Intel (x86_64) | `stockfish-macos-x86-64-avx2.tar` (AVX2 미지원이면 `x86-64-modern`) |
+| Apple Silicon (arm64) | `stockfish-macos-m1-apple-silicon` 포함 파일 |
+| Intel (x86_64) | `stockfish-macos-x86-64-avx2` 우선, 구형이면 `x86-64-modern` |
+
+AVX2 지원 여부 확인: `sysctl -a | grep avx2` 출력이 있으면 avx2.
 
 **Step 3. 압축 해제 & PATH 등록**
 
 ```bash
-# 다운로드 폴더에서 (파일명은 버전에 따라 다를 수 있음)
-tar -xf stockfish-macos-m1-apple-silicon.tar   # Apple Silicon
-# 또는
-tar -xf stockfish-macos-x86-64-avx2.tar        # Intel
+# 다운로드 폴더에서
+tar -xf <다운로드한 파일명>.tar
 
-# 바이너리 이동 (sudo 필요)
+# 바이너리를 PATH에 복사
 sudo mv stockfish/stockfish /usr/local/bin/stockfish
-sudo chmod +x /usr/local/bin/stockfish
 ```
 
-**Step 4. Gatekeeper 해제 (처음 실행 시)**
+**Step 4. Gatekeeper 해제**
 
-macOS가 "개발자 미확인 앱" 경고를 띄울 수 있음:
+처음 실행 시 macOS가 "개발자 미확인 앱" 으로 차단할 수 있음:
 
 ```bash
 xattr -d com.apple.quarantine /usr/local/bin/stockfish
 ```
 
-### macOS (Homebrew — 간단하지만 버전 느림)
+### Linux (패키지 매니저 — 간단하지만 버전 느릴 수 있음)
 
 ```bash
-brew install stockfish
+# Debian / Ubuntu
+sudo apt update && sudo apt install stockfish
+
+# Arch
+sudo pacman -S stockfish
+
+# Fedora
+sudo dnf install stockfish
 ```
 
-### Linux (Debian / Ubuntu)
+**Debian/Ubuntu 주의**: 바이너리가 `/usr/games/stockfish` 에 설치된다. `/usr/games` 가 PATH 에 없으면 아래 "PATH 이슈 해결" 참조.
+
+### Linux (GitHub 릴리스 — 최신 버전)
+
+패키지 매니저 버전이 오래됐다면 macOS와 동일하게 직접 받는다.
+
+https://github.com/official-stockfish/Stockfish/releases/latest 에서 `stockfish-ubuntu-x86-64-avx2` 등 본인 환경에 맞는 파일 선택.
 
 ```bash
-sudo apt update
-sudo apt install stockfish
+tar -xf <다운로드한 파일명>.tar
+sudo mv stockfish/stockfish /usr/local/bin/stockfish
 ```
-
-**주의**: Debian 패키지는 바이너리를 `/usr/games/stockfish` 에 설치한다. `/usr/games` 가 `$PATH` 에 없으면 `stockfish` 명령이 안 잡힌다 (비대화형 쉘에서 흔함). 아래 "동작 확인" 섹션의 해결법 참조.
-
-### Linux (기타 배포판)
-
-- **Arch**: `sudo pacman -S stockfish`
-- **Fedora**: `sudo dnf install stockfish`
-- **기타**: 공식 릴리스 페이지 https://stockfishchess.org/download/ 에서 바이너리 받아서 `PATH` 에 있는 디렉토리에 복사.
 
 
 ## 동작 확인
