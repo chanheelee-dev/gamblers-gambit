@@ -4,13 +4,54 @@
 
 ## 설치
 
-### macOS
+### macOS (네이티브 — 권장)
+
+Homebrew 패키지는 릴리스가 느리다. 공식 GitHub에서 최신 바이너리를 직접 받는다.
+
+**Step 1. 칩 확인**
+
+```bash
+uname -m
+# arm64   → Apple Silicon (M1/M2/M3)
+# x86_64  → Intel
+```
+
+**Step 2. 릴리스 페이지에서 다운로드**
+
+https://github.com/official-stockfish/Stockfish/releases/latest 접속 →
+Assets 목록에서 macOS 빌드 선택:
+
+| 칩 | 파일 이름 |
+|---|---|
+| Apple Silicon (arm64) | `stockfish-macos-m1-apple-silicon.tar` |
+| Intel (x86_64) | `stockfish-macos-x86-64-avx2.tar` (AVX2 미지원이면 `x86-64-modern`) |
+
+**Step 3. 압축 해제 & PATH 등록**
+
+```bash
+# 다운로드 폴더에서 (파일명은 버전에 따라 다를 수 있음)
+tar -xf stockfish-macos-m1-apple-silicon.tar   # Apple Silicon
+# 또는
+tar -xf stockfish-macos-x86-64-avx2.tar        # Intel
+
+# 바이너리 이동 (sudo 필요)
+sudo mv stockfish/stockfish /usr/local/bin/stockfish
+sudo chmod +x /usr/local/bin/stockfish
+```
+
+**Step 4. Gatekeeper 해제 (처음 실행 시)**
+
+macOS가 "개발자 미확인 앱" 경고를 띄울 수 있음:
+
+```bash
+xattr -d com.apple.quarantine /usr/local/bin/stockfish
+```
+
+### macOS (Homebrew — 간단하지만 버전 느림)
 
 ```bash
 brew install stockfish
 ```
-
-Homebrew 가 없으면 [brew.sh](https://brew.sh) 에서 먼저 설치.
 
 ### Linux (Debian / Ubuntu)
 
