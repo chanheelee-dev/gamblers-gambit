@@ -68,20 +68,6 @@ sudo apt install stockfish
 - **Fedora**: `sudo dnf install stockfish`
 - **기타**: 공식 릴리스 페이지 https://stockfishchess.org/download/ 에서 바이너리 받아서 `PATH` 에 있는 디렉토리에 복사.
 
-### Windows
-
-선택지 3개:
-
-1. **winget** (Windows 10/11 기본):
-   ```powershell
-   winget install stockfish.stockfish
-   ```
-2. **Chocolatey**:
-   ```powershell
-   choco install stockfish
-   ```
-3. **수동 설치**: [Stockfish 릴리스 페이지](https://stockfishchess.org/download/) 에서 Windows 바이너리(`.exe`) 다운로드 → 적절한 폴더에 풀고 그 폴더를 `PATH` 에 추가.
-4. **WSL 사용자**: WSL 쉘에서 Linux 섹션 가이드를 따름.
 
 ## 동작 확인
 
@@ -145,7 +131,6 @@ python-chess 는 UCI 프로토콜만 쓰므로 Stockfish 버전은 크게 가리
 | `FileNotFoundError: Stockfish binary not found` | `which stockfish` 로 확인. PATH 이슈면 위 "PATH 이슈 해결" 참조. |
 | `Permission denied` | 바이너리 실행권한: `chmod +x /path/to/stockfish`. |
 | 엔진이 매우 느림 | depth 파라미터를 낮추거나, NNUE 가중치가 로드되는지 확인 (`setoption name Use NNUE value true` 가 기본). |
-| WSL에서 "stockfish not found" | WSL 내부에서 별도 설치 필요 (Windows 설치본은 WSL 에서 안 보임). |
 
 ## 관련 문서
 
