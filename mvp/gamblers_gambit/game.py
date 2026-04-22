@@ -51,15 +51,59 @@ def _prompt_guess(input_fn=input) -> str | None:
         print("  '?' — please enter u or d (or q to quit).")
 
 
+_WHITE_SYMS = {
+    chess.PAWN: "♟", chess.ROOK: "♜", chess.KNIGHT: "♞",
+    chess.BISHOP: "♝", chess.QUEEN: "♛", chess.KING: "♚",
+}
+_BLACK_SYMS = {
+    chess.PAWN: "♙", chess.ROOK: "♖", chess.KNIGHT: "♘",
+    chess.BISHOP: "♗", chess.QUEEN: "♕", chess.KING: "♔",
+}
+_EMPTY_SYM = "⭘"
+_HL = "\033[43;30m"   # black text on yellow background
+_RST = "\033[0m"
+
+
+def _board_with_highlights(board: chess.Board, highlight: set[int], flip: bool = False) -> str:
+    ranks = range(8) if flip else range(7, -1, -1)
+    files = range(7, -1, -1) if flip else range(8)
+    file_label = "   h g f e d c b a" if flip else "   a b c d e f g h"
+    lines = ["  -----------------"]
+    for rank in ranks:
+        row = f"{rank + 1} |"
+        for file in files:
+            sq = chess.square(file, rank)
+            piece = board.piece_at(sq)
+            if piece:
+                sym = (_WHITE_SYMS if piece.color == chess.WHITE else _BLACK_SYMS)[piece.piece_type]
+            else:
+                sym = _EMPTY_SYM
+            row += (f"{_HL}{sym}{_RST}" if sq in highlight else sym) + "|"
+        lines.append(row)
+        lines.append("  -----------------")
+    lines.append(file_label)
+    return "\n".join(lines)
+
+
 def _render_board(fen: str, move_uci: str) -> str:
     board = chess.Board(fen)
     move = chess.Move.from_uci(move_uci)
     side = "White" if board.turn == chess.WHITE else "Black"
     san = board.san(move)
+    piece = board.piece_at(move.from_square)
+    piece_name = chess.piece_name(piece.piece_type).capitalize() if piece else "?"
+    from_sq = chess.square_name(move.from_square)
+    to_sq = chess.square_name(move.to_square)
+
+    board_after = board.copy(stack=False)
+    board_after.push(move)
+    flip = board.turn == chess.BLACK
+    board_str = _board_with_highlights(board_after, {move.from_square, move.to_square}, flip=flip)
+
     return (
-        f"{board.unicode(borders=True, invert_color=True)}\n"
-        f"  Side to move: {side}\n"
-        f"  Candidate move: {san}"
+        f"{board_str}\n"
+        f"  Side to move : {side}\n"
+        f"  Moving piece : {piece_name} ({from_sq} → {to_sq})   [{san}]"
     )
 
 

@@ -13,13 +13,15 @@ import math
 import os
 import shutil
 from dataclasses import dataclass
+from pathlib import Path
 
 import chess
 import chess.engine
 
 DEFAULT_DEPTH = 12
 
-_FALLBACK_STOCKFISH_PATHS = ("/usr/games/stockfish", "/usr/local/bin/stockfish")
+_REPO_ROOT = Path(__file__).parent.parent.parent
+_SYSTEM_FALLBACKS = ("/usr/games/stockfish", "/usr/local/bin/stockfish")
 
 
 def find_stockfish() -> str:
@@ -29,7 +31,13 @@ def find_stockfish() -> str:
     found = shutil.which("stockfish")
     if found:
         return found
-    for candidate in _FALLBACK_STOCKFISH_PATHS:
+    # repo-local: scan <repo>/stockfish/ for any executable
+    repo_stockfish_dir = _REPO_ROOT / "stockfish"
+    if repo_stockfish_dir.is_dir():
+        for candidate in sorted(repo_stockfish_dir.iterdir()):
+            if candidate.is_file() and os.access(candidate, os.X_OK):
+                return str(candidate)
+    for candidate in _SYSTEM_FALLBACKS:
         if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
             return candidate
     raise FileNotFoundError(

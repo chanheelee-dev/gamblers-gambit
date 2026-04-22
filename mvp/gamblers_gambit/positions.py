@@ -19,14 +19,14 @@ class Round:
 
 MVP_ROUNDS: tuple[Round, ...] = (
     Round(
-        fen="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-        move_uci="e2e4",
-        note="Opening: main-line e4. Expect small positive V for white.",
+        fen="6k1/ppp2ppp/8/8/8/8/PPP2PPP/4R1K1 w - - 0 1",
+        move_uci="e1e8",
+        note="Back-rank checkmate — Re8#. Black king trapped behind own pawns. Big V.",
     ),
     Round(
-        fen="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-        move_uci="a2a3",
-        note="Opening: passive a3. Expect small V, mild direction.",
+        fen="r4rk1/pp4pp/2p5/5p2/8/2NP4/PP3PPP/2R1R1K1 w - - 0 1",
+        move_uci="e1e7",
+        note="Rook infiltrates 7th rank, attacking Black pawns. Medium-large V.",
     ),
     Round(
         fen="rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
@@ -34,9 +34,9 @@ MVP_ROUNDS: tuple[Round, ...] = (
         note="Sicilian reply. Mid-to-small V, direction subtle.",
     ),
     Round(
-        fen="r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 2 3",
-        move_uci="d1h5",
-        note="Scholar's setup: Qh5. Sharp but not obviously winning to a novice.",
+        fen="r3k2r/pp3ppp/8/3Np3/8/8/PPP2PPP/R3K2R w KQkq - 0 1",
+        move_uci="d5c7",
+        note="Nc7+ forks Black king (e8) and rook (a8) simultaneously. Large V.",
     ),
     Round(
         fen="rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq g3 0 2",
@@ -44,9 +44,9 @@ MVP_ROUNDS: tuple[Round, ...] = (
         note="Fool's mate: Qh4#. Obvious once spotted — big V, easy target.",
     ),
     Round(
-        fen="8/8/8/3k4/8/3K4/8/8 w - - 0 1",
-        move_uci="d3c3",
-        note="K-only endgame, opposition move. Near-zero V, pure noise.",
+        fen="r3k2r/ppp2ppp/8/3R4/8/8/PPP2PPP/4K2R w Kkq - 0 1",
+        move_uci="d5d8",
+        note="Rd8+ — rook invades back rank with check, forcing king from castled safety. Large V.",
     ),
     Round(
         fen="2K5/1P6/8/8/8/8/r7/4k3 w - - 0 1",
@@ -54,9 +54,9 @@ MVP_ROUNDS: tuple[Round, ...] = (
         note="Pawn promotion in R+P vs R endgame. Large V winning-ward.",
     ),
     Round(
-        fen="rnb1kbnr/ppp1pppp/8/3q4/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-        move_uci="e2e3",
-        note="Exposed Q on d5: any dev move is fine. Quiet, small V.",
+        fen="r1bqk2r/ppp2ppp/2np1n2/4p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R w KQkq - 0 8",
+        move_uci="d1a4",
+        note="Qa4 pins Nc6 against uncastled king. Medium V.",
     ),
     Round(
         fen="r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
