@@ -45,12 +45,22 @@ MVP_ROUNDS: tuple[Round, ...] = (
     ),
     Round(
         fen="r1bqk2r/ppp2ppp/2np1n2/4p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R w KQkq - 0 8",
-        move_uci="d1a4",
-        note="Qa4 pins Nc6 against uncastled king. Medium V.",
+        move_uci="c4b5",
+        note="Bb5 pins Nc6 against uncastled king (b5-c6-d7-e8 diagonal). Medium V.",
     ),
     Round(
         fen="r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
         move_uci="c4f7",
         note="Bxf7+ speculative sac. Dubious sacrifice — direction hard to read.",
+    ),
+    Round(
+        fen="4r1k1/ppp2ppp/8/8/8/8/PPP2PPP/6K1 b - - 0 1",
+        move_uci="e8e1",
+        note="(Black) Re1# — back-rank checkmate, mirror of White Re8#. Big V.",
+    ),
+    Round(
+        fen="r3k2r/pp3ppp/8/4p3/3n4/8/PPP2PPP/R3K2R b KQkq - 0 1",
+        move_uci="d4c2",
+        note="(Black) Nxc2+ forks White king (e1) and rook (a1) simultaneously. Large V.",
     ),
 )
