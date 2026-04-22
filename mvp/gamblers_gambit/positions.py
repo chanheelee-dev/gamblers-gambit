@@ -29,19 +29,9 @@ MVP_ROUNDS: tuple[Round, ...] = (
         note="Rook infiltrates 7th rank, attacking Black pawns. Medium-large V.",
     ),
     Round(
-        fen="rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
-        move_uci="c7c5",
-        note="Sicilian reply. Mid-to-small V, direction subtle.",
-    ),
-    Round(
         fen="r3k2r/pp3ppp/8/3Np3/8/8/PPP2PPP/R3K2R w KQkq - 0 1",
         move_uci="d5c7",
         note="Nc7+ forks Black king (e8) and rook (a8) simultaneously. Large V.",
-    ),
-    Round(
-        fen="rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq g3 0 2",
-        move_uci="d8h4",
-        note="Fool's mate: Qh4#. Obvious once spotted — big V, easy target.",
     ),
     Round(
         fen="r3k2r/ppp2ppp/8/3R4/8/8/PPP2PPP/4K2R w Kkq - 0 1",
@@ -62,10 +52,5 @@ MVP_ROUNDS: tuple[Round, ...] = (
         fen="r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
         move_uci="c4f7",
         note="Bxf7+ speculative sac. Dubious sacrifice — direction hard to read.",
-    ),
-    Round(
-        fen="rnbqkb1r/ppp1pppp/5n2/3p4/2PP4/2N5/PP2PPPP/R1BQKBNR w KQkq - 0 4",
-        move_uci="h2h3",
-        note="Prophylactic h3. Very small V — design target for 'subtle' rounds.",
     ),
 )

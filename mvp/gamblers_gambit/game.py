@@ -60,11 +60,17 @@ _BLACK_SYMS = {
     chess.BISHOP: "♗", chess.QUEEN: "♕", chess.KING: "♔",
 }
 _EMPTY_SYM = "⭘"
-_HL = "\033[43;30m"   # black text on yellow background
+_HL_FROM = "\033[41;97m"  # bright white on red   — 출발 칸
+_HL_TO   = "\033[42;30m"  # black on green        — 도착 칸
 _RST = "\033[0m"
 
 
-def _board_with_highlights(board: chess.Board, highlight: set[int], flip: bool = False) -> str:
+def _board_with_highlights(
+    board: chess.Board,
+    from_sq: int,
+    to_sq: int,
+    flip: bool = False,
+) -> str:
     ranks = range(8) if flip else range(7, -1, -1)
     files = range(7, -1, -1) if flip else range(8)
     file_label = "   h g f e d c b a" if flip else "   a b c d e f g h"
@@ -74,11 +80,13 @@ def _board_with_highlights(board: chess.Board, highlight: set[int], flip: bool =
         for file in files:
             sq = chess.square(file, rank)
             piece = board.piece_at(sq)
-            if piece:
-                sym = (_WHITE_SYMS if piece.color == chess.WHITE else _BLACK_SYMS)[piece.piece_type]
+            sym = (_WHITE_SYMS if piece.color == chess.WHITE else _BLACK_SYMS)[piece.piece_type] if piece else _EMPTY_SYM
+            if sq == from_sq:
+                row += f"{_HL_FROM}{sym}{_RST}|"
+            elif sq == to_sq:
+                row += f"{_HL_TO}{sym}{_RST}|"
             else:
-                sym = _EMPTY_SYM
-            row += (f"{_HL}{sym}{_RST}" if sq in highlight else sym) + "|"
+                row += sym + "|"
         lines.append(row)
         lines.append("  -----------------")
     lines.append(file_label)
@@ -98,7 +106,7 @@ def _render_board(fen: str, move_uci: str) -> str:
     board_after = board.copy(stack=False)
     board_after.push(move)
     flip = board.turn == chess.BLACK
-    board_str = _board_with_highlights(board_after, {move.from_square, move.to_square}, flip=flip)
+    board_str = _board_with_highlights(board_after, move.from_square, move.to_square, flip=flip)
 
     return (
         f"{board_str}\n"
